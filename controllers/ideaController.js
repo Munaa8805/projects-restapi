@@ -42,7 +42,7 @@ const getIdeaById = async (req, res) => {
 
 const createIdea = async (req, res) => {
     try {
-        const { title, description, summary, tags } = req.body || {};
+        const { title, description, summary, tags, featured } = req.body || {};
         if (!title.trim() || !description.trim() || !summary.trim() || !tags.trim()) {
             res.status(400);
             throw new Error('Please add all fields');
@@ -55,7 +55,7 @@ const createIdea = async (req, res) => {
             summary,
             tags: typeof tags === 'string' ? tags.split(',').map(tag => tag.trim()).filter(Boolean) : Array.isArray(tags) ? tags : [],
             user: req.user._id.toString(),
-
+            featured: featured || false,
         })
         const idea = await newIdea.save();
         res.status(201).json({ success: true, data: idea });
@@ -67,7 +67,7 @@ const createIdea = async (req, res) => {
 
 const updateIdea = async (req, res) => {
     try {
-        const { title, description, summary, tags } = req.body || {};
+        const { title, description, summary, tags, featured } = req.body || {};
         // if (!title || !description || !summary || !tags) {
         //     return res.status(400).json({ success: false, message: 'Please add all fields' });
         // }
@@ -84,6 +84,7 @@ const updateIdea = async (req, res) => {
         idea.description = description || idea.description;
         idea.summary = summary || idea.summary;
         idea.tags = tags || idea.tags;
+        idea.featured = featured || idea.featured;
         await idea.save();
 
         res.status(200).json({ success: true, data: idea });
