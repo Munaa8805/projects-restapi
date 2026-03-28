@@ -11,6 +11,16 @@ const getIdeas = async (req, res) => {
     }
 };
 
+const featuredIdeas = async (req, res) => {
+    try {
+        const ideas = await Idea.find({ featured: true });
+        res.status(200).json({ success: true, data: ideas });
+    } catch (error) {
+        res.status(500);
+        throw new Error(`Failed to get featured ideas: ${error.message}`);
+    }
+};
+
 const getIdeaById = async (req, res) => {
     try {
         const id = mongoose.Types.ObjectId.isValid(req.params.id) ? req.params.id : null;
@@ -102,4 +112,4 @@ const deleteIdea = async (req, res) => {
     }
 };
 
-export { getIdeas, getIdeaById, createIdea, updateIdea, deleteIdea };
+export { getIdeas, getIdeaById, createIdea, updateIdea, deleteIdea, featuredIdeas };
