@@ -3,7 +3,7 @@ import User from '../models/User.js';
 import mongoose from 'mongoose';
 const getIdeas = async (req, res) => {
     try {
-        const ideas = await Idea.find();
+        const ideas = await Idea.find().sort({ createdAt: -1 });
         res.status(200).json({ success: true, data: ideas });
     } catch (error) {
         res.status(500);
