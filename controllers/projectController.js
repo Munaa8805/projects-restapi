@@ -19,7 +19,7 @@ const getProjects = async (req, res) => {
         const { page, limit, category, featured, search, sort } = req.query;
 
         const pageNum = Math.max(1, parseInt(page, 10) || 1);
-        const limitNum = Math.min(100, Math.max(1, parseInt(limit, 10) || 10));
+        const limitNum = Math.min(100, Math.max(1, parseInt(limit, 10) || 5));
         const skip = (pageNum - 1) * limitNum;
 
         const filter = {};
@@ -82,4 +82,14 @@ const getProjectById = async (req, res) => {
     }
 };
 
-export { getProjects, getProjectById };
+
+const featuredProjects = async (req, res) => {
+    try {
+        const projects = await Project.find({ featured: true }).sort({ createdAt: -1 }).limit(5);
+        res.status(200).json({ success: true, data: projects });
+    } catch (error) {
+        throw new Error(`Failed to get featured projects: ${error.message}`, 500);
+    }
+};
+
+export { getProjects, getProjectById, featuredProjects };
