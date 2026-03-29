@@ -19,41 +19,47 @@ const app = express();
 
 const PORT = process.env.PORT || 6050;
 
-const parseOrigins = (value) =>
-    (value || '')
-        .split(',')
-        .map((s) => s.trim())
-        .filter(Boolean);
 
-const corsOriginsFromEnv = parseOrigins(process.env.CORS_ORIGINS);
-const allowedOrigins =
-    corsOriginsFromEnv.length > 0
-        ? corsOriginsFromEnv
-        : [
-            'http://localhost:3000',
-            'http://127.0.0.1:3000',
-            'http://localhost:5173',
-            'http://127.0.0.1:5173',
-            "https://ideas.munaa.dev"
-        ];
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(
-    cors({
-        origin(origin, callback) {
-            if (!origin) {
-                return callback(null, true);
-            }
-            if (allowedOrigins.includes(origin)) {
-                return callback(null, true);
-            }
-            return callback(null, false);
-        },
-        credentials: true,
-    })
-);
+
+const corsOptions = {
+    // 1. Origin: String, RegExp, Array, or Function
+    origin: (origin, callback) => {
+        const whitelist = ['http://localhost:3000',
+            'http://127.0.0.1:3000',
+            'http://localhost:5173',
+            'http://127.0.0.1:5173',
+            "https://ideas.munaa.dev"];
+        if (!origin || whitelist.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+
+    // 2. Methods: Allowed HTTP verbs
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+
+    // 3. Allowed Headers: Custom headers the client can send
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+
+    // 4. Exposed Headers: Headers the client is allowed to see in the response
+    exposedHeaders: ['X-Total-Count'],
+
+    // 5. Credentials: Set to true if sending Cookies or Auth headers
+    credentials: true,
+
+    // 6. Max Age: How long (in seconds) the browser caches the preflight (OPTIONS) request
+    maxAge: 86400, // 24 hours
+
+    // 7. Success Status: Provides a status code for successful OPTIONS requests
+    optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
