@@ -88,6 +88,10 @@ const countrySchema = new mongoose.Schema({
     yearlyData: {
         type: Map,
         of: Number
+    },
+    tourist_destinations: {
+        type: [String],
+        default: []
     }
 
 }, {

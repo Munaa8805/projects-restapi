@@ -3,3 +3,5 @@
 countries.json
 gdp.json
 seeder.js
+tourist.json
+tourist_seeder.js
