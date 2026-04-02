@@ -8,6 +8,7 @@ import connectDB from './config/db.js';
 import projectRoutes from './routes/projectRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import ideaRoutes from './routes/ideaRoutes.js';
+import countryRoutes from './routes/countryRoutes.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -70,7 +71,7 @@ app.get('/', (req, res) => {
 app.use('/api/v1/projects', projectRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/ideas', ideaRoutes);
-
+app.use('/api/v1/countries', countryRoutes);
 
 
 app.use((req, res, next) => {
