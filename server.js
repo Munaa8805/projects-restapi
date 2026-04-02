@@ -33,7 +33,8 @@ const corsOptions = {
             'http://127.0.0.1:3000',
             'http://localhost:5173',
             'http://127.0.0.1:5173',
-            "https://ideas.munaa.dev"];
+            "https://ideas.munaa.dev",
+            "https://aistudio.google.com/apps"];
         if (!origin || whitelist.includes(origin)) {
             callback(null, true);
         } else {
