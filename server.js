@@ -34,7 +34,7 @@ const corsOptions = {
             'http://localhost:5173',
             'http://127.0.0.1:5173',
             "https://ideas.munaa.dev",
-            "https://aistudio.google.com/apps"];
+            "https://ais-dev-npkplxdr7bt5fvgqf5xxln-245806968768.us-west2.run.app"];
         if (!origin || whitelist.includes(origin)) {
             callback(null, true);
         } else {
