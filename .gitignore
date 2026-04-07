@@ -5,3 +5,5 @@ gdp.json
 seeder.js
 tourist.json
 tourist_seeder.js
+safecountry.json
+safecountry_seeder.js

@@ -92,6 +92,14 @@ const countrySchema = new mongoose.Schema({
     tourist_destinations: {
         type: [String],
         default: []
+    },
+    safety_score: {
+        rank: {
+            type: Number
+        },
+        score: {
+            type: Number
+        }
     }
 
 }, {
